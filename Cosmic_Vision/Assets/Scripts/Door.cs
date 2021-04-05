@@ -5,18 +5,33 @@ using UnityEngine;
 public class Door : MonoBehaviour, IInteractable
 {
     GameObject player;
+    public bool infrontDoor;
+    SpriteRenderer render;
+    BoxCollider2D collid;
     void Start()
     {
         player = FindObjectOfType<PlayerController>().gameObject;
+        render = GetComponent<SpriteRenderer>();
+        collid = GetComponent<BoxCollider2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if(Mathf.Abs(transform.position.x - player.transform.position.x) > 2.5f && infrontDoor)
+        {
+            flipDoor();
+            infrontDoor = false;
+        }
     }
     public void Interact()
     {
-
+        Debug.Log("hallo");
+        infrontDoor = true;
+        flipDoor();
+    }
+    void flipDoor()
+    {
+        render.enabled = !render.enabled;
+        collid.enabled = !collid.enabled;
     }
 }
